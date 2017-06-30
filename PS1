@@ -1,0 +1,35 @@
+from math import *
+
+x = int(input('x= '))
+y = int(input('y= '))
+
+def karatsuba(x,y):  
+    # Recursion base case
+    if x < 10 or y < 10: 
+        return x*y        
+    B = 10
+    m = max(int(log10(x)+1), int(log10(y)+1))
+    
+    # check whether m is even. If odd, set m lower by 1
+    if m % 2 != 0:
+        m -= 1
+        m_2 = int(m/2)
+		
+        a = x // (B**m_2)
+        b = x % (B**m_2)
+        c = y // (B**m_2)
+        d = y % (B**m_2)
+		
+        ac = karatsuba(a,c)
+        bd = karatsuba(b,d)
+        ad_plus_bc = karatsuba(a+b,c+d) - ac - bd
+        
+        	# this little trick, writing n as 2*nby2 takes care of both even and odd n
+        product = ac*10**m + ((ad_plus_bc)* (10**m_2)) + bd
+
+        return product
+    
+s = str(karatsuba(x,y))
+print (s)
+    
+ 
